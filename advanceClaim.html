@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banker's Algorithm</title>
+    <style>
+        body {
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('background.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .container {
+            width: 90%;
+            margin: 0 auto;
+        }
+        .row {
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .col-4, .col-3, .col-6 {
+            padding: 10px;
+        }
+        .col-4 {
+            width: 33.3333%;
+        }
+        .col-3 {
+            width: 25%;
+        }
+        .col-6 {
+            width: 50%;
+        }
+        .offset-4 {
+            margin-left: 33.3333%;
+        }
+        .p-2 {
+            padding: 20px;
+        }
+        .pt-5 {
+            padding-top: 50px;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .input-group-prepend {
+            margin-right: 10px;
+        }
+        .input-group-text {
+            font-size: large;
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #ff5555;
+            border: 1px solid #00468b;
+        }
+        .form-control {
+            width: 50px;
+            padding: 5px;
+            border: 1px solid #004a93;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            padding: 8px;
+            border: 1px solid #084f96;
+        }
+        th {
+            background-color: #e09898;
+        }
+        h4 {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: larger;
+            margin-bottom: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ef2424;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .m-5 {
+            margin: 50px 0;
+        }
+        .p-3 {
+            padding: 30px;
+        }
+        .mt-3 {
+            margin-top: 30px;
+        }
+        .mb-3 {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body id="body">
+    <!-- Main Algo Implementation Starts -->
+    <div class="container">
+        <div class="row p-2 pt-5">
+            <!-- Total Instance Form Starts -->
+            <div class="col-4 text-center">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">No of Instances of Resource A</span>
+                    </div>
+                    <input type="text" size="2" maxlength="2" class="form-control" id="resourceA" required>
+                </div> 
+            </div>
+            <div class="col-4 text-center">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">No of Instances of Resource B</span>
+                    </div>
+                    <input type="text" size="2" maxlength="2" class="form-control" id="resourceB" required>
+                </div> 
+            </div>
+            <div class="col-4 text-center">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">No of Instances of Resource C</span>
+                    </div>
+                    <input type="text" size="2" maxlength="2" class="form-control" id="resourceC" required>
+                </div> 
+            </div>
+            <!-- Total Instance Form Ends -->
+        </div>
+    </div>
+    <div class="container pt-5">
+        <div class="row">
+            <!-- Allocation Form Starts -->
+            <div class="col-3 text-center">
+                <table class="text-center">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><h4>Allocation</h4></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <td>P1</td>
+                            <td><input size="2" maxlength="2" id="a11"></td>
+                            <td><input size="2" maxlength="2" id="a12"></td>
+                            <td><input size="2" maxlength="2" id="a13"></td>
+                        </tr>
+                        <tr>
+                            <td>P2</td>
+                            <td><input size="2" maxlength="2" id="a21"></td>
+                            <td><input size="2" maxlength="2" id="a22"></td>
+                            <td><input size="2" maxlength="2" id="a23"></td>
+                        </tr>
+                        <tr>
+                            <td>P3</td>
+                            <td><input size="2" maxlength="2" id="a31"></td>
+                            <td><input size="2" maxlength="2" id="a32"></td>
+                            <td><input size="2" maxlength="2" id="a33"></td>
+                        </tr>
+                        <tr>
+                            <td>P4</td>
+                            <td><input size="2" maxlength="2" id="a41"></td>
+                            <td><input size="2" maxlength="2" id="a42"></td>
+                            <td><input size="2" maxlength="2" id="a43"></td>
+                        </tr>
+                        <tr>
+                            <td>P5</td>
+                            <td><input size="2" maxlength="2" id="a51"></td>
+                            <td><input size="2" maxlength="2" id="a52"></td>
+                            <td><input size="2" maxlength="2" id="a53"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Allocation Form Ends -->
+            <!-- Max Form Starts -->
+            <div class="col-3 text-center">
+                <table class="text-center">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><h4>Maximum</h4></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <td>P1</td>
+                            <td><input size="2" maxlength="2" id="m11"></td>
+                            <td><input size="2" maxlength="2" id="m12"></td>
+                            <td><input size="2" maxlength="2" id="m13"></td>
+                        </tr>
+                        <tr>
+                            <td>P2</td>
+                            <td><input size="2" maxlength="2" id="m21"></td>
+                            <td><input size="2" maxlength="2" id="m22"></td>
+                            <td><input size="2" maxlength="2" id="m23"></td>
+                        </tr>
+                        <tr>
+                            <td>P3</td>
+                            <td><input size="2" maxlength="2" id="m31"></td>
+                            <td><input size="2" maxlength="2" id="m32"></td>
+                            <td><input size="2" maxlength="2" id="m33"></td>
+                        </tr>
+                        <tr>
+                            <td>P4</td>
+                            <td><input size="2" maxlength="2" id="m41"></td>
+                            <td><input size="2" maxlength="2" id="m42"></td>
+                            <td><input size="2" maxlength="2" id="m43"></td>
+                        </tr>
+                        <tr>
+                            <td>P5</td>
+                            <td><input size="2" maxlength="2" id="m51"></td>
+                            <td><input size="2" maxlength="2" id="m52"></td>
+                            <td><input size="2" maxlength="2" id="m53"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Max Form Ends -->
+            <!-- Need Form Starts -->
+            <div class="col-3 text-center">
+                <table class="text-center">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><h4>Need</h4></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <td>P1</td>
+                            <td><input size="2" maxlength="2" id="n11"></td>
+                            <td><input size="2" maxlength="2" id="n12"></td>
+                            <td><input size="2" maxlength="2" id="n13"></td>
+                        </tr>
+                        <tr>
+                            <td>P2</td>
+                            <td><input size="2" maxlength="2" id="n21"></td>
+                            <td><input size="2" maxlength="2" id="n22"></td>
+                            <td><input size="2" maxlength="2" id="n23"></td>
+                        </tr>
+                        <tr>
+                            <td>P3</td>
+                            <td><input size="2" maxlength="2" id="n31"></td>
+                            <td><input size="2" maxlength="2" id="n32"></td>
+                            <td><input size="2" maxlength="2" id="n33"></td>
+                        </tr>
+                        <tr>
+                            <td>P4</td>
+                            <td><input size="2" maxlength="2" id="n41"></td>
+                            <td><input size="2" maxlength="2" id="n42"></td>
+                            <td><input size="2" maxlength="2" id="n43"></td>
+                        </tr>
+                        <tr>
+                            <td>P5</td>
+                            <td><input size="2" maxlength="2" id="n51"></td>
+                            <td><input size="2" maxlength="2" id="n52"></td>
+                            <td><input size="2" maxlength="2" id="n53"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Need Form Ends -->
+            <!-- Available Form Starts -->
+            <div class="col-3 text-center">
+                <table class="text-center">
+                    <thead>
+                        <tr>
+                            <th colspan="4"><h4>Available</h4></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>A</td>
+                            <td>B</td>
+                            <td>C</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input size="2" maxlength="2" id="av11"></td>
+                            <td><input size="2" maxlength="2" id="av12"></td>
+                            <td><input size="2" maxlength="2" id="av13"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Available Form Ends -->
+        </div>
+        <!-- Algo Buttons Starts -->
+        <div class="row m-5 text-center">
+            <div class="col-4">
+                <a href="#" class="btn" onclick="example()">Example</a>
+            </div>
+            <div class="col-4">
+                <a href="#" class="btn" onclick="run_algo()">Run Algorithm</a>
+            </div>
+            <div class="col-4">
+                <a href="#" class="btn" onclick="reset()">Reset Values</a>
+            </div>
+        </div>
+        <!-- Algo Buttons Ends -->
+        <!-- Process Sequence Starts -->
+        <div class="row p-3 mt-3 mb-3">
+            <div class="col-6 offset-4">
+                <h4>Process Sequence :</h4><br>
+                <input id="p1" size="2" maxlength="2"/>&nbsp
+                <input id="p2" size="2" maxlength="2"/>&nbsp
+                <input id="p3" size="2" maxlength="2"/>&nbsp
+                <input id="p4" size="2" maxlength="2"/>&nbsp
+                <input id="p5" size="2" maxlength="2"/>
+            </div>
+        </div>
+        <!-- Process Sequence Ends -->
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- Custom JavaScript -->
+    <script src="./advanceClaim.js"></script>
+</body>
+</html>
